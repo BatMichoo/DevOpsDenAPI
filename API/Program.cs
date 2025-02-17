@@ -1,3 +1,6 @@
+using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
+
 namespace API
 {
     public class Program
@@ -5,6 +8,14 @@ namespace API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            string dbAccessCreds = Environment.GetEnvironmentVariable(builder.Configuration["ConnectionStrings:DbAccessEnvName"]) ??
+                throw new ArgumentNullException("No connection string to the DB.");
+
+            builder.Services.AddDbContext<DenDbContext>(opt =>
+            {
+                opt.UseSqlServer(string.Format(builder.Configuration.GetConnectionString("DevOpsDen"), dbAccessCreds));
+            });
 
             // Add services to the container.
 
