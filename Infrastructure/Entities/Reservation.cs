@@ -20,7 +20,11 @@ public partial class Reservation
 
     public DateTime CreatedAt { get; set; }
 
+    public int? PaymentId { get; set; }
+
     public virtual Pansion? Pansion { get; set; }
+
+    public virtual Payment? Payment { get; set; }
 
     public virtual Room? Room { get; set; }
 

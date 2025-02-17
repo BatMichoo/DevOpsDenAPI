@@ -14,9 +14,17 @@ public partial class DenDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Address> Addresses { get; set; }
+
+    public virtual DbSet<City> Cities { get; set; }
+
     public virtual DbSet<Client> Clients { get; set; }
 
+    public virtual DbSet<Country> Countries { get; set; }
+
     public virtual DbSet<Pansion> Pansions { get; set; }
+
+    public virtual DbSet<Payment> Payments { get; set; }
 
     public virtual DbSet<Reservation> Reservations { get; set; }
 
@@ -26,12 +34,42 @@ public partial class DenDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Address>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Addresse__3214EC070EA854B9");
+
+            entity.Property(e => e.PostalCode).HasMaxLength(15);
+            entity.Property(e => e.Street).HasMaxLength(100);
+
+            entity.HasOne(d => d.City).WithMany(p => p.Addresses)
+                .HasForeignKey(d => d.CityId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Addresses__CityI__59063A47");
+        });
+
+        modelBuilder.Entity<City>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Cities__3214EC07B83CDFED");
+
+            entity.Property(e => e.Name).HasMaxLength(50);
+
+            entity.HasOne(d => d.Country).WithMany(p => p.Cities)
+                .HasForeignKey(d => d.CountryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Cities__CountryI__5629CD9C");
+        });
+
         modelBuilder.Entity<Client>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Clients__3214EC07BAB754F0");
 
             entity.Property(e => e.FirstName).HasMaxLength(30);
             entity.Property(e => e.LastName).HasMaxLength(30);
+
+            entity.HasOne(d => d.Address).WithMany(p => p.Clients)
+                .HasForeignKey(d => d.AddressId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Clients__Address__5CD6CB2B");
 
             entity.HasMany(d => d.Reservations).WithMany(p => p.Clients)
                 .UsingEntity<Dictionary<string, object>>(
@@ -49,11 +87,25 @@ public partial class DenDbContext : DbContext
                     });
         });
 
+        modelBuilder.Entity<Country>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Countrie__3214EC07FE5A0FF9");
+
+            entity.Property(e => e.Name).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<Pansion>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Pansions__3214EC0775899A74");
 
             entity.Property(e => e.Type).HasMaxLength(15);
+        });
+
+        modelBuilder.Entity<Payment>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Payments__3214EC07CBE40F23");
+
+            entity.Property(e => e.CompletedAt).HasPrecision(0);
         });
 
         modelBuilder.Entity<Reservation>(entity =>
@@ -71,6 +123,10 @@ public partial class DenDbContext : DbContext
             entity.HasOne(d => d.Pansion).WithMany(p => p.Reservations)
                 .HasForeignKey(d => d.PansionId)
                 .HasConstraintName("FK__Reservati__Pansi__412EB0B6");
+
+            entity.HasOne(d => d.Payment).WithMany(p => p.Reservations)
+                .HasForeignKey(d => d.PaymentId)
+                .HasConstraintName("FK__Reservati__Payme__5DCAEF64");
 
             entity.HasOne(d => d.Room).WithMany(p => p.Reservations)
                 .HasForeignKey(d => d.RoomId)

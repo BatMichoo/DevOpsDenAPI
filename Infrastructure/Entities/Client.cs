@@ -8,5 +8,9 @@ public partial class Client
 
     public string LastName { get; set; } = null!;
 
+    public int AddressId { get; set; }
+
+    public virtual Address Address { get; set; } = null!;
+
     public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }
