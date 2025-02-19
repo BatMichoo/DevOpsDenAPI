@@ -3,14 +3,10 @@
 ################################################################################
 
 /.vs/DevOpsDenAPI
+/.vs/ProjectEvaluation
+/API/bin
 /API/obj
 /BusinessLogic/obj
+/BusinessLogic/bin
 /Infrastructure/obj
-/.vs/ProjectEvaluation
-/API/bin/Debug/net6.0/API.dll
-/API/bin/Debug/net6.0/API.exe
-/API/bin/Debug/net6.0/API.pdb
-/API/bin/Debug/net6.0/Infrastructure.dll
-/API/bin/Debug/net6.0/Infrastructure.pdb
-/Infrastructure/bin/Debug/net6.0/Infrastructure.dll
-/Infrastructure/bin/Debug/net6.0/Infrastructure.pdb
+/Infrastructure/bin
