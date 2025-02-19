@@ -1,16 +1,14 @@
-version: '3.8'
-
 services:
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver
     restart: always
     environment:
-      SA_PASSWORD: "YourStrong!Password"
+      SA_PASSWORD: "${DB_PASSWORD}"
       ACCEPT_EULA: "Y"
       MSSQL_PID: "Developer"
     ports:
-      - "1433:1433"
+      - "1456:1456"
     volumes:
       - sql_data:/var/opt/mssql
 
@@ -18,12 +16,12 @@ services:
     build:
       context: .
       dockerfile: API/Dockerfile  # Adjust if the Dockerfile is in a different path
-    container_name: aspnet_api
+    container_name: DevOpsDenAPI
     restart: always
     depends_on:
       - db
     environment:
-      ConnectionStrings__DefaultConnection: "Server=db,1433;Database=YourDbName;User Id=sa;Password=YourStrong!Password;TrustServerCertificate=True;"
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}   
     ports:
       - "8080:80"
 

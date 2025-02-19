@@ -5,16 +5,34 @@ namespace API
 {
     public class Program
     {
+        private static string GetDevDbConnString(WebApplicationBuilder builder)
+        {
+            string connString = string.Empty;
+            string dbAccessCreds = string.Empty;
+
+            connString = builder.Configuration["ConnectionStrings:DevOpsDen"];
+
+            string envVarName = builder.Configuration["ConnectionStrings:DbAccessEnvName"];
+
+            dbAccessCreds = Environment.GetEnvironmentVariable(envVarName);
+
+            string test2 = string.Format(connString, dbAccessCreds);
+
+            return connString;
+        }
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            string dbAccessCreds = Environment.GetEnvironmentVariable(builder.Configuration["ConnectionStrings:DbAccessEnvName"]) ??
-                throw new ArgumentNullException("No connection string to the DB.");
+            string dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+                (builder.Environment.IsDevelopment()
+                    ? GetDevDbConnString(builder)
+                : throw new ArgumentNullException("No connection string to the DB."));
 
             builder.Services.AddDbContext<DenDbContext>(opt =>
             {
-                opt.UseSqlServer(string.Format(builder.Configuration.GetConnectionString("DevOpsDen"), dbAccessCreds));
+                opt.UseSqlServer(dbConnectionString);
             });
 
             // Add services to the container.
