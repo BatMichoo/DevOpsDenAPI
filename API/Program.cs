@@ -7,18 +7,17 @@ namespace API
     {
         private static string GetDevDbConnString(WebApplicationBuilder builder)
         {
-            string connString = string.Empty;
-            string dbAccessCreds = string.Empty;
-
-            connString = builder.Configuration["ConnectionStrings:DevOpsDen"];
+            string connString = builder.Configuration["ConnectionStrings:DevOpsDen"];
 
             string envVarName = builder.Configuration["ConnectionStrings:DbAccessEnvName"];
 
-            dbAccessCreds = Environment.GetEnvironmentVariable(envVarName);
+            string dbAccessCreds = Environment.GetEnvironmentVariable(envVarName);
 
-            string test2 = string.Format(connString, dbAccessCreds);
+            string test = Environment.GetEnvironmentVariable("DB_PASSWORD");
 
-            return connString;
+            string formattedConnString = string.Format(connString, dbAccessCreds);
+
+            return formattedConnString;
         }
 
         public static void Main(string[] args)

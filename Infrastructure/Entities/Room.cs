@@ -1,4 +1,7 @@
-﻿namespace Infrastructure.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Infrastructure.Entities;
 
 public partial class Room
 {
@@ -8,7 +11,7 @@ public partial class Room
 
     public int Floor { get; set; }
 
-    public int? Number { get; set; }
+    public int Number { get; set; }
 
     public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 

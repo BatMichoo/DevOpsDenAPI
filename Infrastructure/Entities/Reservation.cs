@@ -1,4 +1,7 @@
-﻿namespace Infrastructure.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Infrastructure.Entities;
 
 public partial class Reservation
 {
@@ -10,10 +13,6 @@ public partial class Reservation
 
     public int Adults { get; set; }
 
-    public int? Children { get; set; }
-
-    public int? PansionId { get; set; }
-
     public DateTime StartDate { get; set; }
 
     public DateTime EndDate { get; set; }
@@ -22,7 +21,13 @@ public partial class Reservation
 
     public int? PaymentId { get; set; }
 
-    public virtual Pansion? Pansion { get; set; }
+    public int Children { get; set; }
+
+    public int GuestCount { get; set; }
+
+    public int PansionId { get; set; }
+
+    public virtual Pansion Pansion { get; set; } = null!;
 
     public virtual Payment? Payment { get; set; }
 

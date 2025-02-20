@@ -1,4 +1,7 @@
-﻿namespace Infrastructure.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Infrastructure.Entities;
 
 public partial class Address
 {

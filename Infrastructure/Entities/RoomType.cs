@@ -1,4 +1,7 @@
-﻿namespace Infrastructure.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Infrastructure.Entities;
 
 public partial class RoomType
 {
@@ -10,9 +13,9 @@ public partial class RoomType
 
     public int AdultBeds { get; set; }
 
-    public int? ChildBeds { get; set; }
+    public int ChildBeds { get; set; }
 
-    public int? TotalBeds { get; set; }
+    public int TotalBeds { get; set; }
 
     public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 }

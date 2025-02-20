@@ -1,14 +1,12 @@
-﻿using Infrastructure.Entities;
+﻿using System;
+using System.Collections.Generic;
+using Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Context;
 
-public partial class DenDbContext : DbContext
+public partial class DenDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
-    public DenDbContext()
-    {
-    }
-
     public DenDbContext(DbContextOptions<DenDbContext> options)
         : base(options)
     {
@@ -116,13 +114,15 @@ public partial class DenDbContext : DbContext
                 .HasPrecision(0)
                 .HasDefaultValueSql("(sysdatetime())");
             entity.Property(e => e.EndDate).HasColumnType("date");
+            entity.Property(e => e.GuestCount).HasComputedColumnSql("([Adults]+[Children])", true);
             entity.Property(e => e.PansionId).HasDefaultValueSql("((1))");
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.StartDate).HasColumnType("date");
 
             entity.HasOne(d => d.Pansion).WithMany(p => p.Reservations)
                 .HasForeignKey(d => d.PansionId)
-                .HasConstraintName("FK__Reservati__Pansi__412EB0B6");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Reservati__Pansi__6FE99F9F");
 
             entity.HasOne(d => d.Payment).WithMany(p => p.Reservations)
                 .HasForeignKey(d => d.PaymentId)
@@ -137,8 +137,6 @@ public partial class DenDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Rooms__3214EC07F7A5D93F");
 
-            entity.Property(e => e.Number).HasComputedColumnSql("([Floor]*(100)+[Id])", true);
-
             entity.HasOne(d => d.Type).WithMany(p => p.Rooms)
                 .HasForeignKey(d => d.TypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -151,7 +149,7 @@ public partial class DenDbContext : DbContext
 
             entity.Property(e => e.BasePrice).HasColumnType("decimal(6, 2)");
             entity.Property(e => e.Name).HasMaxLength(20);
-            entity.Property(e => e.TotalBeds).HasComputedColumnSql("([AdultBeds]+isnull([ChildBeds],(0)))", true);
+            entity.Property(e => e.TotalBeds).HasComputedColumnSql("([AdultBeds]+[ChildBeds])", true);
         });
 
         OnModelCreatingPartial(modelBuilder);
