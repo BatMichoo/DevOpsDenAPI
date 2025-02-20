@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Context;
 
-public partial class DenDbContext : Microsoft.EntityFrameworkCore.DbContext
+public partial class DenDbContext : DbContext
 {
     public DenDbContext(DbContextOptions<DenDbContext> options)
         : base(options)

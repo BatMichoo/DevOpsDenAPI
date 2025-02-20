@@ -17,5 +17,7 @@ public partial class RoomType
 
     public int TotalBeds { get; set; }
 
+    public bool IsSeaView { get; set; }
+
     public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 }

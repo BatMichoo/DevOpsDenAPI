@@ -1,13 +1,11 @@
-﻿using BusinessLogic.Models;
-
-namespace BusinessLogic.Repositories
+﻿namespace BusinessLogic.Repositories
 {
-    public interface IRepository<T> where T : BaseModel
+    public interface IRepository<TModel, TCreate, TEdit> 
     {
-        T Create(T newModel);
-        T GetById(int id);
-        List<T> GetAll();
-        T Update(T updateModel);
-        bool Delete(int id);
+        Task<TModel> Create(TCreate newModel);
+        Task<TModel?> GetById(int id);
+        Task<List<TModel>> GetAll();
+        Task<TModel> Update(TEdit updateModel);
+        Task<bool> Delete(int id);
     }
 }

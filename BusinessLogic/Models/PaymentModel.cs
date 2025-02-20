@@ -1,6 +1,6 @@
 ﻿namespace BusinessLogic.Models
 {
-    public class ReservationModel : BaseModel
+    public class PaymentModel
     {
     }
 }
