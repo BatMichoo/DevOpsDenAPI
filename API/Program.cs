@@ -1,4 +1,8 @@
+using BusinessLogic.MapperProfiles;
+using BusinessLogic.Repositories;
+using BusinessLogic.Services;
 using Infrastructure.Context;
+using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace API
@@ -36,10 +40,18 @@ namespace API
 
             // Add services to the container.
 
+            builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+            builder.Services.AddScoped<IReservationService, ReservationService>();
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddAutoMapper(opt =>
+            {
+                opt.AddProfile<ReservationProfile>();
+            });
 
             var app = builder.Build();
 

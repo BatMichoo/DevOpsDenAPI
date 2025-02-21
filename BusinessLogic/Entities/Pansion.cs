@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Infrastructure.Entities;
+namespace BusinessLogic.Entities;
 
-public partial class Payment
+public partial class Pansion
 {
     public int Id { get; set; }
 
-    public DateTime CompletedAt { get; set; }
+    public string Type { get; set; } = null!;
 
     public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }

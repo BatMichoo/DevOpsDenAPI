@@ -2,7 +2,7 @@ services:
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: DevOpsDenDB
-    restart: always
+    restart: on-failure
     environment:
       SA_PASSWORD: "${DB_PASSWORD}"
       ACCEPT_EULA: "Y"
@@ -16,7 +16,7 @@ services:
       context: .
       dockerfile: API/Dockerfile  # Adjust if the Dockerfile is in a different path
     container_name: DevOpsDenAPI
-    restart: always
+    restart: on-failure
     depends_on:
       - db
     environment:

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Infrastructure.Entities;
+﻿using BusinessLogic.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Context;

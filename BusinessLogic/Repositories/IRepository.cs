@@ -1,11 +1,11 @@
 ﻿namespace BusinessLogic.Repositories
 {
-    public interface IRepository<TModel, TCreate, TEdit> 
+    public interface IRepository<TEntity, TCreate, TEdit> 
     {
-        Task<TModel> Create(TCreate newModel);
-        Task<TModel?> GetById(int id);
-        Task<List<TModel>> GetAll();
-        Task<TModel> Update(TEdit updateModel);
-        Task<bool> Delete(int id);
+        Task<TEntity> Create(TCreate newModel);
+        Task<TEntity?> GetById(int id);
+        Task<List<TEntity>> GetAll();
+        Task<TEntity> Update(TEdit updateModel);
+        Task<bool> Delete(int id);        
     }
 }

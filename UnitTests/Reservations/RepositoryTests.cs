@@ -1,6 +1,7 @@
-﻿using BusinessLogic.Models.Reservations;
+﻿using BusinessLogic.Entities;
+using BusinessLogic.Models.Reservations;
+using Infrastructure;
 using Infrastructure.Context;
-using Infrastructure.Entities;
 using Infrastructure.Repositories;
 
 namespace UnitTests.Reservations
@@ -8,7 +9,7 @@ namespace UnitTests.Reservations
     public class RepositoryTests
     {
         private DenDbContext _context;
-        private ReservationRespository? _repository;
+        private ReservationRepository? _repository;
 
 
         [SetUp]
@@ -16,7 +17,7 @@ namespace UnitTests.Reservations
         {
             _context = Initializer.DatabaseWithReservationSeeding();
 
-            _repository = new ReservationRespository(_context);
+            _repository = new ReservationRepository(_context);
         }
 
         [TearDown]

@@ -1,5 +1,8 @@
-﻿using Infrastructure.Context;
-using Infrastructure.Entities;
+﻿using AutoMapper;
+using BusinessLogic.Entities;
+using BusinessLogic.MapperProfiles;
+using Infrastructure;
+using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace UnitTests
@@ -82,5 +85,18 @@ namespace UnitTests
 
             return context;
         }
-    }        
+    }
+
+    public static class Mappings
+    {
+        public static IMapper CreateMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<ReservationProfile>();
+            });
+
+            return config.CreateMapper();
+        }
+    }
 }
